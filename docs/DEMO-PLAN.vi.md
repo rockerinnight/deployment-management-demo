@@ -17,6 +17,9 @@ quy tắc nghiệp vụ độc quyền của công ty.
 Phân biệt rõ kinh nghiệm thực tế ở dự án cũ với các tính năng mới của bản demo.
 Không đưa ra kết quả kinh doanh hoặc cải thiện hiệu năng chưa được kiểm chứng.
 
+Hệ thống gốc là ứng dụng full-stack tích hợp Jenkins; demo chỉ tái hiện luồng
+tương tác frontend. Không đưa tài liệu lưu trữ gốc vào bản demo chia sẻ công khai.
+
 ## Kết quả hướng tới
 
 - Demo ổn định trong 5-10 phút trên máy local, không phụ thuộc dịch vụ bên ngoài.
@@ -34,10 +37,11 @@ Không đưa ra kết quả kinh doanh hoặc cải thiện hiệu năng chưa �
 | Thành phần giao diện | Ant Design | Bảng, biểu mẫu, bố cục, phản hồi và chỉ báo trạng thái nhất quán |
 | Styling | CSS Modules + stylesheet toàn cục nhỏ | Tùy chỉnh có phạm vi và dùng chung design token |
 | Routing | React Router | Route theo tính năng, bảo vệ route và điều hướng trang chi tiết |
-| Server state | TanStack Query | Lấy dữ liệu, cache, mutation, invalidation và polling tiến trình |
+| Server state | TanStack Query | Lấy snapshot, cache, mutation và invalidation |
+| Tiến trình triển khai | EventSource (SSE) | Nhận cập nhật được đẩy theo deployment ID, không polling |
 | Global state | Zustand | Chỉ quản lý danh tính giả lập và vai trò được chọn |
 | Biểu mẫu | React Hook Form + Zod | Kiểm tra dữ liệu có kiểu và xử lý các trường phụ thuộc nhau |
-| Mock API | Mock Service Worker (MSW) | Mô phỏng hành vi API qua HTTP mà không cần backend thật |
+| Mock API | Mock Service Worker (MSW) | Mô phỏng API snapshot, mutation và luồng SSE qua HTTP |
 | Kiểm thử unit/component | Vitest + React Testing Library | Quy tắc phân quyền, validation và hành vi tương tác |
 | Kiểm thử end-to-end | Playwright | Kiểm chứng quy trình demo trên trình duyệt |
 | Chất lượng mã nguồn | ESLint + Prettier + TypeScript strict | Mã nguồn nhất quán và kiểm tra kiểu dữ liệu |
@@ -54,8 +58,11 @@ Không dùng lại phiên bản cũ chỉ vì chúng xuất hiện trong README 
 - Kiểm tra quyền truy cập route và thực hiện thao tác bằng một chính sách dùng chung.
 - Dashboard nhỏ: tổng quan triển khai và hoạt động gần đây.
 - Danh sách triển khai: lọc theo môi trường/trạng thái và phân trang.
-- Biểu mẫu yêu cầu triển khai: ứng dụng, môi trường và phiên bản phát hành.
+- Biểu mẫu yêu cầu triển khai mở trong dialog từ nút **Thêm mới** trên danh sách,
+  với các trường ứng dụng, môi trường, phiên bản và kịch bản mô phỏng.
 - Trang chi tiết: timeline vòng đời và log giả lập không chứa thông tin nhạy cảm.
+- Dashboard, danh sách và chi tiết kết hợp snapshot với cập nhật từ EventSource
+  cho job đang chạy hoặc thao tác cần theo dõi.
 - Kịch bản thành công và thất bại có kết quả xác định.
 - Operator/Admin rollback một bản phát hành thất bại đủ điều kiện.
 - Trạng thái tải, dữ liệu rỗng, validation, không đủ quyền và lỗi API rõ ràng.
@@ -66,9 +73,25 @@ Không dùng lại phiên bản cũ chỉ vì chúng xuất hiện trong README 
 - CRUD người dùng/nhóm, quản trị dự án và giám sát máy chủ đầy đủ.
 - Xác thực thật, phân quyền tại backend và thực thi triển khai production.
 - Tích hợp CI/CD, SSH, container, tài khoản cloud và hạ tầng thực tế.
+- Reject, Re-deploy và các quy tắc approve/complete đầy đủ của hệ thống gốc.
 - Truyền log trực tiếp, observability production và cộng tác nhiều người dùng.
 
 Không thao tác nào trong demo triển khai phần mềm hoặc thay đổi máy chủ thật.
+
+### Tham chiếu giao diện
+
+- Dùng bố cục thanh điều hướng trên, bảng, nhãn trạng thái và trang chi tiết
+  từ các ảnh tham chiếu tông xanh lam/teal. Không sao chép nhận diện, tên
+  người dùng hoặc dữ liệu của hệ thống gốc. Ảnh đăng nhập chỉ tham chiếu màu
+  sắc; demo dùng bộ chuyển vai trò, không có màn hình đăng nhập.
+- Ảnh số 5 tham chiếu bố cục dialog tạo yêu cầu, không tham chiếu màu đỏ cũ.
+  Áp dụng cùng theme xanh lam/teal cho tiêu đề và nút chính, giữ màu đỏ cho
+  lỗi hoặc thất bại. Không mở rộng form sang các trường ngoài MVP chỉ vì
+  chúng xuất hiện trong ảnh.
+- Ảnh số 6 chỉ tham chiếu bố cục dashboard: tổng số job, số job đang chạy,
+  thành công và thất bại ở trên; hoạt động gần đây với liên kết chi tiết ở dưới.
+  Dùng theme xanh lam/teal và nội dung tiếng Anh. Bỏ bộ lọc dashboard, tỷ lệ
+  thành công và số liệu tổng hợp về nhóm, dự án, ứng dụng.
 
 ## Kiến trúc và phân định nơi quản lý state
 
@@ -85,6 +108,16 @@ src/
 ```
 
 - TanStack Query quản lý bản ghi triển khai và dữ liệu dashboard.
+- Dashboard, danh sách và chi tiết lấy snapshot riêng. Snapshot và API theo dõi
+  tiến trình trả dữ liệu độc lập; frontend ghép theo deployment ID. Khi snapshot
+  có job `in-progress`, gửi các deployment ID chưa được theo dõi lên API tiến
+  trình, không cần đợi người dùng thao tác. Approve, Rollback và Complete cũng
+  có thể bắt đầu theo dõi. Với rollback, lấy ID job mới từ payload SSE để chèn
+  hàng và áp dụng các cập nhật tiếp theo.
+- UI hiển thị ngay khi có snapshot, kể cả với job `in-progress`. Ghép cập nhật
+  SSE theo deployment ID vào dữ liệu đang hiển thị; nếu SSE đến trước snapshot,
+  giữ cập nhật đó để ghép khi snapshot về. Không chờ SSE để hiển thị và không
+  chủ động lấy lại snapshot khi nhận sự kiện, kể cả sự kiện kết thúc job.
 - Zustand quản lý danh tính demo được chọn, không lưu bản sao dữ liệu server.
 - React Hook Form quản lý dữ liệu nhập và trạng thái validation của biểu mẫu.
 - Search parameter trên URL quản lý bộ lọc và phân trang danh sách.
@@ -103,7 +136,9 @@ Bảng này là thiết kế cho demo, không khẳng định chính sách của
 | Xem dashboard, các lần triển khai và log | Có | Có | Có |
 | Yêu cầu triển khai staging | Có | Có | Có |
 | Yêu cầu triển khai production | Có | Có | Không |
+| Approve yêu cầu đang pending | Có | Có | Không |
 | Rollback bản phát hành thất bại đủ điều kiện | Có | Có | Không |
+| Complete job thành công đủ điều kiện | Có | Có | Không |
 
 Dùng cùng một chính sách cho điều hướng, quyền truy cập route và khả năng thực hiện
 thao tác. Mock API handler cũng từ chối mutation không đủ quyền để thể hiện
@@ -128,36 +163,56 @@ tự xác thực người dùng và thực thi phân quyền một cách độc 
 
 1. Reset demo và chọn Developer.
 2. Mở dashboard, xem hoạt động triển khai gần đây.
-3. Mở danh sách triển khai; lọc Orders API trong môi trường Staging.
-4. Yêu cầu triển khai 1.9.0 bằng kịch bản được gắn nhãn mô phỏng thất bại.
-5. Thử gửi biểu mẫu chưa đầy đủ để thể hiện thông báo validation hữu ích.
-6. Gửi yêu cầu hợp lệ; ngăn gửi trùng trong lúc đang xử lý.
-7. Chuyển đến trang chi tiết lần triển khai mới.
-8. Quan sát Queued -> Running -> Failed, với lỗi health check trong log giả lập.
-9. Thể hiện Developer không thể yêu cầu production hoặc thực hiện rollback.
-10. Chuyển sang Operator mà không mất ngữ cảnh lần triển khai đang xem.
-11. Xác nhận rollback về phiên bản 1.8.0 đã biết là hoạt động tốt.
-12. Quan sát Rolling back -> Rolled back và phiên bản đang chạy trở về 1.8.0.
-13. Hiển thị lịch sử triển khai và số liệu dashboard đã cập nhật.
+3. Mở danh sách triển khai và lọc theo môi trường Staging.
+4. Chọn **Thêm mới** để mở dialog, chọn Orders API và thử gửi khi còn thiếu dữ
+   liệu để minh họa validation.
+5. Hoàn tất biểu mẫu cho phiên bản 1.9.0 và chọn kịch bản có nhãn mô phỏng thất bại.
+6. Gửi yêu cầu hợp lệ; ngăn gửi trùng trong lúc request đang xử lý.
+7. Mở chi tiết job `pending`; minh họa Developer không thể Approve hoặc yêu
+   cầu Production. Chuyển sang Operator mà không mất ngữ cảnh job.
+8. Chọn Approve để bắt đầu triển khai và mở EventSource. Theo dõi tiến trình
+   từ 0% đến 100% và trạng thái `in-progress` -> `done`; kết quả là thất bại do
+   health check, thể hiện trong log giả lập.
+9. Xác nhận Rollback. Job mới triển khai lại build 1.8.0, xuất hiện đầu bảng
+   Staging từ sự kiện SSE và được theo dõi theo ID mới. Job 1.9.0 vẫn giữ kết
+   quả thất bại và liên kết đến job rollback.
+10. Kiểm tra build đang chạy là 1.8.0 và dashboard/lịch sử đã cập nhật. Nếu còn
+    thời gian, chọn Complete trên job khôi phục thành công để xác nhận đã kiểm
+    tra và khóa các thao tác thay đổi job; vẫn xem được log.
 
 ### Luồng thành công bổ trợ
 
-Yêu cầu triển khai staging bằng kịch bản thành công và quan sát:
-Queued -> Running -> Succeeded.
+Tạo yêu cầu staging với kịch bản thành công; Operator Approve rồi theo dõi
+`pending` -> `in-progress` -> `done`, với kết quả thành công.
 
 ### Quy tắc vòng đời
 
+- Tạo yêu cầu chỉ ghi job `pending`. Approve bắt đầu chạy và theo dõi tiến độ
+  0–100%; `done` nghĩa là thực thi đã kết thúc, không đồng nghĩa với thành công
+  hay đã Complete. Kết quả thành công/thất bại và xác nhận được lưu riêng.
+- Complete là bước xác nhận sau khi kiểm tra, không chạy lại job. Demo chỉ cho
+  Complete job đã chạy thành công; sau xác nhận, API từ chối các thao tác thay
+  đổi trên job đó, nhưng log vẫn đọc được.
+
 - Bản phát hành thất bại trong demo là phiên bản mới đã được kích hoạt trước khi
-  health check thất bại; rollback tường minh khôi phục phiên bản tốt gần nhất.
+  health check thất bại. Rollback tạo job riêng, có ID mới, liên kết với job thất
+  bại và triển khai lại bản build thành công gần nhất, không triển khai lại bản
+  thất bại. Chỉ khi job rollback thành công mới ghi nhận đã khôi phục.
+- Trên trang đầu của bảng sắp mới nhất trước, chèn job rollback từ sự kiện lên
+  đầu danh sách đang hiển thị nếu khớp bộ lọc. Chỉ bỏ các hàng vượt `pageSize`
+  ở cuối bảng; nếu trang còn chỗ thì không bỏ hàng nào. Sự kiện lặp cập nhật
+  theo ID, không chèn hoặc cắt thêm hàng; không xóa bản ghi khỏi dữ liệu nguồn.
 - Chỉ cho phép rollback lần triển khai thất bại mới nhất đủ điều kiện, có phiên bản
   trước đó hoạt động tốt và không có thao tác đang chạy gây xung đột.
 - Từ chối chuyển trạng thái không hợp lệ, thao tác không đủ quyền và yêu cầu đang
   chạy bị trùng bằng lỗi API rõ ràng và phản hồi nhìn thấy được trên UI.
-- Dùng thời gian kịch bản xác định, không tạo lỗi ngẫu nhiên.
-- Tính tiến trình từ timestamp khi đọc bản ghi; thao tác đọc hoặc polling
-  không được tự làm tiến trình triển khai chuyển sang bước tiếp theo.
-- Dừng polling tiến trình khi thao tác đạt trạng thái kết thúc.
-- Reset hủy hoạt động mô phỏng, khôi phục dữ liệu mẫu và xóa query state.
+- Bộ mô phỏng chuyển trạng thái theo lịch xác định và phát sự kiện khi trạng
+  thái đổi, kể cả khi không có màn hình theo dõi. Đọc snapshot hoặc đăng ký SSE
+  không làm tiến trình tiến thêm một bước.
+- Sau khi mở, giữ stream tới khi người dùng rời trang, kể cả khi job đã kết
+  thúc. Không có sự kiện mới là bình thường khi dữ liệu không thay đổi.
+- Reset đóng stream, hủy hoạt động mô phỏng và request đang chờ, khôi phục dữ
+  liệu mẫu và xóa query state; phản hồi cũ không được cập nhật lại cache.
 
 ## Checklist triển khai
 
@@ -166,7 +221,7 @@ Queued -> Running -> Succeeded.
 - [x] Tạo tài liệu kế hoạch và khởi tạo Git repository local.
 - [ ] Khởi tạo React + TypeScript bằng Vite.
 - [ ] Cấu hình TypeScript strict, path alias, ESLint và Prettier.
-- [ ] Thêm script dev, build, type-check, lint, test và test:e2e.
+- [ ] Thêm script dev, build, preview, type-check, lint, test và test:e2e.
 - [ ] Cấu hình Vitest/Testing Library và Playwright.
 - [ ] Thêm README mô tả cách cài đặt, kiến trúc và giới hạn demo.
 
@@ -174,7 +229,8 @@ Queued -> Running -> Succeeded.
 
 - [ ] Định nghĩa kiểu cho ứng dụng, môi trường, phiên bản, lần triển khai và log.
 - [ ] Tạo dữ liệu mẫu giả lập, gồm phiên bản hoạt động tốt và lịch sử gần đây.
-- [ ] Định nghĩa endpoint cho dashboard, danh sách/chi tiết, yêu cầu, rollback và reset.
+- [ ] Định nghĩa endpoint snapshot cho dashboard và danh sách/chi tiết, endpoint
+  SSE, cùng endpoint tạo yêu cầu, Approve, Rollback, Complete và reset.
 - [ ] Triển khai tiến trình thành công/thất bại xác định và điều kiện rollback.
 - [ ] Triển khai phân trang, bộ lọc và thứ tự sắp xếp ổn định.
 - [ ] Thêm độ trễ demo có thể cấu hình và kịch bản lỗi API một lần có nhãn rõ ràng.
@@ -196,9 +252,11 @@ Queued -> Running -> Succeeded.
 - [ ] Xây dựng bảng triển khai với bộ lọc và phân trang lưu trên URL.
 - [ ] Xây dựng biểu mẫu có validation với trường ứng dụng/môi trường/phiên bản phụ thuộc nhau.
 - [ ] Ngăn gửi trùng và hiển thị lỗi mutation.
-- [ ] Xây dựng timeline chi tiết, log và polling biết dừng ở trạng thái kết thúc.
-- [ ] Thêm xác nhận rollback, phản hồi về điều kiện thực hiện và hiển thị tiến trình.
-- [ ] Invalidate query chi tiết/danh sách/dashboard liên quan sau mutation.
+- [ ] Xây dựng timeline, log, phần trăm và theo dõi EventSource từ snapshot hoặc thao tác
+  trên cả ba màn hình; thêm Approve và xác nhận Complete.
+- [ ] Thêm xác nhận rollback, theo dõi ID mới và cập nhật đầu bảng theo bộ lọc.
+- [ ] Với mutation không được cập nhật qua SSE, invalidate query liên quan.
+  Với thao tác có SSE, cập nhật dữ liệu đang hiển thị mà không lấy lại snapshot.
 - [ ] Thêm UI tải, dữ liệu rỗng, không đủ quyền, yêu cầu thất bại và thử lại.
 - [ ] Thêm điều khiển reset đưa ứng dụng về trạng thái trình bày đã biết.
 
@@ -207,18 +265,29 @@ Queued -> Running -> Succeeded.
 - [ ] Kiểm thử từ chối triển khai production và rollback, kể cả request đến mock API.
 - [ ] Kiểm thử giá trị trường phụ thuộc được xóa khi lựa chọn ở trường nguồn thay đổi.
 - [ ] Kiểm thử validation yêu cầu và từ chối thao tác trùng/xung đột.
-- [ ] Kiểm thử điều kiện rollback bản thất bại và khôi phục phiên bản hoạt động tốt.
-- [ ] Kiểm thử lần triển khai đã kết thúc không tiếp tục tiến triển/polling.
-- [ ] Kiểm thử reset khôi phục dữ liệu mẫu và loại bỏ dữ liệu cũ đang hiển thị.
-- [ ] E2E: Developer gặp thất bại -> Operator rollback -> dashboard/lịch sử cập nhật.
+- [ ] Kiểm thử Rollback tạo job mới, chèn đúng một hàng khi nhận lại sự kiện và
+  giữ kết quả thất bại của job gốc; Complete chặn thao tác thay đổi nhưng vẫn cho xem log.
+- [ ] Kiểm thử với `pageSize = 10`: 10 hàng + 1 job rollback thì bỏ đúng 1
+  hàng cuối; 9 hàng + 1 job thì không bỏ hàng nào. SSE không gọi lại snapshot.
+- [ ] Kiểm thử snapshot có job `in-progress` bắt đầu theo dõi đúng ID mà không
+  cần thao tác, không đăng ký trùng và thao tác vẫn có thể bắt đầu theo dõi.
+  Kiểm thử stream vẫn mở khi job kết thúc và đóng khi rời trang; UI hiển thị
+  được khi không có SSE và ghép đúng bất kể thứ tự dữ liệu đến.
+- [ ] Kiểm thử reset khi còn kết nối SSE hoặc request đang chờ không để dữ liệu cũ xuất hiện lại.
+- [ ] E2E: Developer tạo yêu cầu -> Operator Approve -> thất bại -> Rollback ->
+  job mới xuất hiện và dashboard/lịch sử cập nhật.
 - [ ] E2E: triển khai thành công và các thao tác Developer bị cấm.
 - [ ] E2E: lỗi API được hiển thị, thử lại thành công mà không tạo bản ghi trùng.
+- [ ] Kiểm chứng SSE sớm trên Vite production preview local ngay khi luồng
+  Approve → thất bại → Rollback chạy được. Kiểm tra tiến trình cập nhật khi
+  job đang chạy, job rollback xuất hiện đầu bảng đúng `pageSize`, và sự kiện
+  SSE không kích hoạt request snapshot.
 - [ ] Chạy type-check, lint, kiểm thử tập trung, E2E và production build.
 - [ ] Diễn tập trên production preview, không chỉ trên dev server.
 
 ### 6. Sẵn sàng phỏng vấn
 
-- [ ] Thay nội dung chờ điền của case study bằng kinh nghiệm cá nhân đúng thực tế.
+- [ ] Rà soát lời trình bày case study để tách rõ kinh nghiệm thực tế và thiết kế demo.
 - [ ] Chuẩn bị sơ đồ kiến trúc ngắn và ghi chú quyết định trong README.
 - [ ] Luyện demo trong 5-10 phút.
 - [ ] Chụp ảnh màn hình dự phòng sau khi triển khai UI.
@@ -227,43 +296,64 @@ Queued -> Running -> Succeeded.
 
 ## Case study
 
-Đây là các chủ đề đề xuất. Chỉ trình bày như kinh nghiệm dự án cũ sau khi xác nhận
-chúng đúng với trách nhiệm thực tế; nếu không, ghi rõ là bài tập thiết kế cho demo.
+Các mục trách nhiệm và kết quả mô tả dự án gốc. Quyết định và minh chứng demo
+được ghi riêng; không suy rộng từ mô phỏng sang hệ thống thật.
 
 ### Case study 1: hành vi nhất quán theo vai trò
 
 - Vấn đề: người dùng cần thao tác khác nhau mà UI không có hành vi mâu thuẫn.
-- Trách nhiệm cá nhân: [Điền chính xác phạm vi bạn phụ trách.]
+- Trách nhiệm cá nhân: lưu quyền của người dùng đã xác thực trong `authStore`
+  để ẩn/hiện các chức năng tương tác theo quyền ở frontend.
 - Phương án: điều kiện kiểm tra vai trò rải rác hoặc chính sách khả năng dùng chung.
 - Quyết định demo: dùng chung chính sách route/thao tác, mock từ chối request không hợp lệ.
 - Minh chứng: Developer bị từ chối production và rollback; Operator có thể khôi phục.
-- Khác biệt với production: backend thật phải thực thi phân quyền.
-- Kết quả hoặc bài học thực tế: [Dùng minh chứng đã kiểm chứng; không bịa số liệu.]
+- Ranh giới trách nhiệm: backend xác thực Bearer access token trong header
+  `Authorization` và kiểm tra quyền với từng request; phần này không do mình đảm nhận.
+- Kết quả thực tế: UI chỉ đưa ra các thao tác người dùng có quyền thực hiện;
+  backend là lớp ngăn request vượt quyền.
 
 ### Case study 2: quản lý state và tính nhất quán của cache
 
 - Vấn đề: thay đổi triển khai phải xuất hiện nhất quán ở trang chi tiết, lịch sử và
   tổng quan, không sao chép bản ghi server vào global state.
-- Trách nhiệm cá nhân: [Điền.]
+- Trách nhiệm cá nhân: trên dashboard, danh sách và chi tiết, gọi API snapshot
+  riêng của mỗi màn hình. Theo dõi job `in-progress` từ snapshot bằng
+  `EventSource`; Approve, Reject, Rollback và Complete cũng có thể bắt đầu
+  theo dõi. API theo dõi tiến trình không phụ thuộc response snapshot.
+  Ghép dữ liệu hai API để hiển thị. Với rollback trên bảng, chèn record mới từ
+  response theo dõi lên đầu danh sách và chỉ bỏ hàng cuối nếu vượt `pageSize`.
 - Phương án: sao chép vào global store/lấy dữ liệu thủ công hoặc để query quản lý server state.
-- Quyết định demo: TanStack Query quản lý bản ghi, Zustand quản lý danh tính demo,
-  URL quản lý bộ lọc, React Hook Form quản lý dữ liệu nhập.
-- Minh chứng: phản hồi mutation, các trang cập nhật, reset và chuyển vai trò.
-- Đánh đổi: polling đơn giản cho demo; streaming có thể phù hợp với log production.
-- Kết quả hoặc bài học thực tế: [Điền một ví dụ có thật.]
+- Quyết định demo: TanStack Query giữ snapshot và dữ liệu hợp nhất từ SSE; Zustand
+  giữ danh tính demo, URL giữ bộ lọc, React Hook Form giữ dữ liệu nhập.
+- Minh chứng: Approve cập nhật % tiến trình; job rollback xuất hiện đầu bảng
+  mà không cần tải lại trang.
+- Đánh đổi: SSE đưa cập nhật đến UI nhưng cần quản lý vòng đời kết nối và đồng bộ
+  lại sau gián đoạn. Demo chỉ stream tiến trình, không stream log.
+- Kết quả thực tế: tiến trình và trạng thái triển khai cập nhật theo thời gian
+  thực thay vì chỉ hiển thị snapshot ban đầu.
 
 ### Case study 3: UX xử lý thất bại bất đồng bộ và khôi phục
 
 - Vấn đề: người dùng cần hiểu trạng thái triển khai đang chạy và khôi phục an toàn
   sau một bản phát hành thất bại.
-- Trách nhiệm cá nhân: [Điền.]
+- Trách nhiệm cá nhân: trên bảng deployment, hiển thị trạng thái tổng thể
+  (thành công, thất bại, đang chạy) và các nút xem Jenkins log, Approve, Reject,
+  Complete, Rollback và Re-deploy ở cột cuối. Cả ba vai trò đều xem được log;
+  các thao tác còn lại phụ thuộc quyền và điều kiện của job. Tiến trình được
+  cập nhật như CS2.
+- Hành vi hệ thống gốc: rollback tạo một job triển khai mới để triển khai lại
+  bản build thành công trước đó, không phải bản build của job được chọn rollback.
+- Approve bắt đầu job (`pending` -> `in-progress` -> `done`) và theo dõi tiến
+  độ 0–100%; Complete xác nhận job sau khi kiểm tra và khóa các thao tác khác.
 - Phương án: một spinner duy nhất hoặc vòng đời, timeline và log rõ ràng.
-- Quyết định demo: chuyển trạng thái xác định, lỗi nhìn thấy được, kiểm tra điều kiện
-  và xác nhận rollback.
+- Quyết định demo: giữ log giả lập, Approve, Rollback và Complete với quy tắc
+  đơn giản; không thêm nút hoặc API cho Reject và Re-deploy. Rollback tạo
+  job mới triển khai lại bản build thành công trước đó.
 - Minh chứng: thất bại -> đổi vai trò -> rollback -> khôi phục phiên bản hoạt động tốt.
 - Đánh đổi: ý nghĩa rollback phụ thuộc backend triển khai; kịch bản đơn giản này
   không mô hình hóa migration cơ sở dữ liệu hoặc khôi phục hệ thống phân tán.
-- Kết quả hoặc bài học thực tế: [Điền, không khẳng định tính năng demo từng được phát hành.]
+- Kết quả thực tế: người dùng theo dõi được tiến trình và đọc Jenkins log để
+  biết lỗi là gì, từ đó chọn thao tác tiếp theo khi job thất bại.
 
 ## Thứ tự trình bày và thời lượng
 
@@ -271,13 +361,13 @@ chúng đúng với trách nhiệm thực tế; nếu không, ghi rõ là bài t
 | --- | --- | --- |
 | 0:00-0:45 | Bối cảnh và trách nhiệm | Bài toán nghiệp vụ, đóng góp thực tế, lưu ý đây là bản tái hiện |
 | 0:45-1:30 | Kiến trúc | Module theo tính năng, nơi quản lý state, ranh giới mock API |
-| 1:30-4:30 | Quy trình chính | Developer gửi yêu cầu, validation, tiến trình, health check thất bại |
-| 4:30-6:00 | Khôi phục và phân quyền | Chuyển Operator, xác nhận rollback, state được cập nhật |
+| 1:30-4:30 | Quy trình chính | Developer gửi yêu cầu, validation, chuyển Operator, Approve và health check thất bại |
+| 4:30-6:00 | Khôi phục | Rollback tạo job mới đầu bảng, kiểm tra bản đã khôi phục; Complete nếu còn thời gian |
 | 6:00-7:30 | Minh chứng kỹ thuật | Chính sách dùng chung, query hook, form schema, kiểm thử tập trung |
-| 7:30-8:30 | Đánh đổi và bài học | Mock so với production, polling, phân quyền backend, bài học thực tế |
+| 7:30-8:30 | Đánh đổi và bài học | Mock so với production, vòng đời SSE, phân quyền backend, bài học thực tế |
 | 8:30-10:00 | Hỏi đáp hoặc luồng thành công | Kịch bản thành công tùy chọn và trao đổi với người phỏng vấn |
 
-Nếu chỉ có năm phút, bỏ phần xem code trực tiếp và luồng thành công tùy chọn.
+Nếu chỉ có năm phút, bỏ phần xem code trực tiếp, Complete và luồng thành công tùy chọn.
 Trình bày bối cảnh, triển khai thất bại, giới hạn vai trò, rollback và một đánh đổi chính.
 
 ## Kế hoạch demo
@@ -286,8 +376,10 @@ Trình bày bối cảnh, triển khai thất bại, giới hạn vai trò, roll
 
 1. Cài dependency và các thành phần cần thiết cho kiểm thử trình duyệt từ trước.
 2. Chạy các bước kiểm tra đã ghi trong tài liệu và build bản production.
-3. Khởi chạy production preview bằng lệnh local đã ghi trong tài liệu.
-4. Xác nhận mock service worker chặn và xử lý request trong bản preview.
+3. Chạy `npm run build`, rồi `npm run preview` khi dự án đã có các script Vite.
+   Mở URL localhost mà Vite in ra để thử bản build, không cần deploy hay domain.
+4. Xác nhận mock service worker xử lý request và trình duyệt nhận từng sự kiện
+   SSE trước khi luồng kết thúc trong bản preview.
 5. Xác nhận không cần API bên ngoài và không sử dụng endpoint triển khai thật.
 6. Reset và diễn tập toàn bộ kịch bản chính.
 7. Mở ứng dụng cùng một vài tab code/kiểm thử liên quan.

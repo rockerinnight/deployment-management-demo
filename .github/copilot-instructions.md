@@ -1,0 +1,12 @@
+# Deployment Management Demo
+
+- Use the [demo plan (VI)](../docs/DEMO-PLAN.vi.md) or [demo plan (EN)](../docs/DEMO-PLAN.en.md) for MVP scope, behavior, and acceptance criteria. Prioritize a repeatable, 5–10 minute localhost walkthrough over extra features.
+- Keep the demo standalone: synthetic data and logs only, with mock HTTP and SSE. Do not copy archived company material, credentials, endpoints, or business rules. Do not add real auth, deployment, Jenkins, infrastructure, or hosted services.
+- **Use English only in the demo app.** All user-facing text, including labels, tooltips, validation and error messages, sample data, and simulated logs, must be in English. Use an English Ant Design locale and never copy Korean text from the UI reference screenshots.
+- Use React, strict TypeScript, Vite, Ant Design, CSS Modules, and React Router. Organize by feature: app shell/providers in `src/app`, dashboard and deployment in `src/features`, reusable UI and policy in `src/shared`, and MSW simulation in `src/mocks`. Keep API clients separate from mock handlers.
+- Keep API data in TanStack Query, demo identity in Zustand, form input in React Hook Form with Zod, list filters and pagination in the URL, and transient UI state local.
+- **Extract a base component at its second use** when UI structure or behavior repeats. Reuse an existing base first. Use Ant Design directly when it already provides the base without repeated project-specific markup or behavior. Keep feature-specific bases in the feature; promote to `src/shared/ui` when reused across features. Do not wrap Ant Design just to rename a component or generalize a one-off.
+- Use a single permissions policy for routes, actions, and mock mutations. The role switcher and mock enforcement are not real authentication or authorization.
+- Keep the snapshot/SSE and rollback rules from the plan intact: render snapshot immediately, subscribe to running IDs without requiring a user action, merge SSE updates by ID without refetching, close the stream on navigation or reset, and trim only rows beyond `pageSize` on rollback.
+- Use kebab-case file names, PascalCase components, camelCase functions, and UPPER_SNAKE_CASE constants. Keep status text visible, support keyboard interaction, and make errors explicit.
+- Use focused checks for the behavior touched. Before declaring the demo ready, verify the full walkthrough on a local Vite production preview.
