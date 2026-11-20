@@ -1,0 +1,54 @@
+.header,
+.brand,
+.controls,
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.header {
+  justify-content: space-between;
+  padding: 14px clamp(16px, 4vw, 56px);
+  color: white;
+  background: linear-gradient(110deg, var(--teal), #174e82);
+}
+
+.brand strong {
+  font-size: 19px;
+}
+.brand span {
+  border-left: 1px solid #ffffff70;
+  padding-left: 12px;
+}
+.demo {
+  background: #ffffff24;
+  border-radius: 20px;
+  padding: 4px 10px;
+}
+.controls select {
+  margin-left: 6px;
+  padding-block: 4px;
+}
+
+.nav {
+  padding-inline: clamp(16px, 4vw, 56px);
+  border-bottom: 1px solid var(--border);
+  background: white;
+}
+
+.nav a {
+  padding: 11px 8px;
+  border-bottom: 2px solid transparent;
+  font-weight: 600;
+}
+
+.nav a[aria-current='page'] {
+  border-color: var(--teal);
+}
+.main {
+  padding: 28px clamp(16px, 4vw, 56px);
+  max-width: 1440px;
+  margin-inline: auto;
+}

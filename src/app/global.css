@@ -1,0 +1,38 @@
+:root {
+  color: #172635;
+  background: #fcfdfe;
+  font:
+    15px/1.5 system-ui,
+    sans-serif;
+  --teal: #087fa3;
+  --muted: #526579;
+  --danger: #b4232a;
+  --border: #dce5eb;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+a {
+  color: #076f98;
+}
+input,
+select {
+  color: #172635;
+  font: inherit;
+  font-weight: 400;
+  background: white;
+  border: 1px solid #adbcc9;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+:focus-visible {
+  outline: 2px solid #159bd0;
+  outline-offset: 3px;
+}

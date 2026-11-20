@@ -219,71 +219,81 @@ Approve and follow `pending` -> `in-progress` -> `done` with a successful outcom
 ### 1. Scaffold and developer workflow
 
 - [x] Create the planning document and initialize the local Git repository.
-- [ ] Scaffold React + TypeScript with Vite.
-- [ ] Configure strict TypeScript, path aliases, ESLint, and Prettier.
-- [ ] Add dev, build, preview, type-check, lint, test, and test:e2e scripts.
-- [ ] Configure Vitest/Testing Library and Playwright.
-- [ ] Add a README with setup, architecture, and demo limitations.
+- [x] Scaffold React + TypeScript with Vite.
+- [x] Configure strict TypeScript, path aliases, ESLint, and Prettier.
+- [x] Add dev, build, preview, type-check, lint, test, and test:e2e scripts.
+- [x] Configure Vitest and Playwright.
+- [ ] Configure React Testing Library for component tests.
+- [x] Add a README with setup, architecture, and demo limitations.
 
 ### 2. Domain model and mock API
 
-- [ ] Define typed applications, environments, releases, deployments, and logs.
-- [ ] Create fictional seed data including a healthy release and recent history.
-- [ ] Define dashboard/list/detail snapshot endpoints, an SSE endpoint, and
-  endpoints for request creation, Approve, Rollback, Complete, and reset.
-- [ ] Implement deterministic success/failure progression and rollback eligibility.
-- [ ] Implement pagination/filtering and stable ordering.
+- [x] Define typed applications, environments, releases, deployments, and logs.
+- [x] Create fictional seed data including a healthy release and recent history.
+- [x] Add dashboard/list/detail snapshot endpoints, an SSE endpoint, and
+  endpoints for request creation, Approve, Rollback, and reset.
+- [ ] Add the Complete endpoint.
+- [x] Simulate deterministic failure and successful recovery, with rollback eligibility checks.
+- [ ] Add a standalone successful deployment scenario.
+- [x] Implement pagination/filtering and stable ordering.
 - [ ] Add configurable demo latency and a labeled one-shot API-error scenario.
-- [ ] Return explicit validation, permission, conflict, and not-found errors.
-- [ ] Define reload behavior: restore fictional seed state and clearly document it.
+- [x] Return explicit validation, permission, conflict, and not-found errors.
+- [x] Define reload behavior: restore fictional seed state and clearly document it.
 
 ### 3. Application shell and permissions
 
-- [ ] Add the shell, dashboard/list/detail routes, and not-found page.
-- [ ] Add the demo identity switcher and non-production badge.
-- [ ] Centralize permission checks and apply route/action guards.
-- [ ] Clear identity-sensitive query state on role switching.
-- [ ] Preserve safe navigation context when changing roles.
-- [ ] Add accessible labels, keyboard navigation, and readable status text.
+- [x] Add the shell, dashboard/list/detail routes, and not-found page.
+- [x] Add the demo identity switcher and non-production badge.
+- [x] Centralize permission checks and apply route/action guards.
+- [ ] Clear identity-sensitive query state on role switching if introduced; current snapshots are shared across roles.
+- [x] Preserve safe navigation context when changing roles.
+- [x] Add accessible labels, keyboard navigation, and readable status text.
 
 ### 4. Deployment workflow
 
-- [ ] Build dashboard summaries and recent activity.
-- [ ] Build the deployment table with URL-backed filters and pagination.
-- [ ] Build the validated form with dependent application/environment/version fields.
-- [ ] Prevent duplicate submissions and display mutation errors.
-- [ ] Add the timeline, logs, percentage, and EventSource tracking from snapshots
-  or actions to all three views; add Approve and Complete confirmation.
-- [ ] Add rollback confirmation, track the new ID, and prepend the row when filters match.
-- [ ] Invalidate affected queries for mutations not reflected via SSE. For
-  actions with SSE, update the displayed data without refetching the snapshot.
-- [ ] Add loading, empty, unauthorized, failed-request, and retry UI.
-- [ ] Add reset controls that leave the app in a known presentation state.
+- [x] Build dashboard summaries and recent activity.
+- [x] Build the deployment table with URL-backed filters and pagination.
+- [x] Build the validated deployment request form.
+- [ ] Handle dependent application/environment/version fields.
+- [x] Prevent duplicate submissions and display mutation errors.
+- [x] Show the timeline and logs on the detail page and progress percentages on all three views.
+- [x] Track EventSource updates from snapshots on all three views and from Approve/Rollback actions.
+- [x] Add the Approve action.
+- [ ] Add Complete confirmation.
+- [x] Add rollback confirmation, track the new ID, and prepend the row when filters match.
+- [ ] Invalidate affected queries for mutations not reflected via SSE.
+- [x] For actions with SSE, update the displayed data without refetching the snapshot.
+- [x] Add loading, empty, unauthorized, failed-request, and retry UI.
+- [x] Add reset controls that leave the app in a known presentation state.
 
 ### 5. Focused verification
 
-- [ ] Test denied production deployment and rollback, including mock API requests.
+- [x] Test that the mock API denies Developer requests to deploy to Production.
+- [x] Test that the simulator denies Developer rollback attempts.
+- [ ] Test that the mock API rollback endpoint denies Developer requests.
 - [ ] Test dependent form values are cleared when upstream selections change.
-- [ ] Test request validation and duplicate/conflicting operation rejection.
-- [ ] Test Rollback creates a new job, repeated events produce one row, and the
-  failed outcome is preserved; Complete blocks further changes but allows viewing logs.
-- [ ] With `pageSize = 10`, test that 10 rows plus one rollback job trims
+- [x] Test form validation and simulator rejection of duplicate/conflicting operations.
+- [x] Test that Rollback creates a new job, repeated events produce one row, and the
+  failed outcome is preserved.
+- [ ] Test that Complete blocks further changes but still allows viewing logs.
+- [x] With `pageSize = 10`, test that 10 rows plus one rollback job trims
   exactly one row, while 9 rows plus one job trims none. SSE does not refetch the snapshot.
-- [ ] Test that `in-progress` jobs from snapshots are tracked without user
-  action or duplicate subscriptions, and that actions can still start tracking.
-  Verify the stream stays open after the job ends and closes on navigation;
-  snapshots render without SSE and updates merge correctly in either arrival order.
-- [ ] Test reset with an open stream or pending requests so stale data cannot reappear.
-- [ ] E2E: Developer request -> Operator Approve -> failure -> Rollback ->
+- [x] Test automatic tracking of the correct ID from an `in-progress` snapshot and tracking from Approve/Rollback actions.
+- [ ] Test that there are no duplicate subscriptions and that the stream stays open after the job ends.
+- [ ] Test that the stream closes on navigation.
+- [ ] Test that the UI renders snapshots before SSE and merges updates correctly in either arrival order.
+- [x] Test reset with an open stream: the stream closes and stale data does not reappear.
+- [ ] Test reset with pending requests: stale responses do not repopulate the cache.
+- [x] E2E: Developer request -> Operator Approve -> failure -> Rollback ->
   new row and updated dashboard/history.
 - [ ] E2E: successful deployment and prohibited Developer actions.
 - [ ] E2E: API failure is visible and retry succeeds without duplicate records.
-- [ ] Verify SSE early on the local Vite production preview as soon as the
+- [x] Verify SSE early on the local Vite production preview as soon as the
   Approve → failure → Rollback flow works. Check that updates appear while
   the job runs, the rollback job appears at the top without exceeding
   `pageSize`, and SSE events do not trigger snapshot requests.
-- [ ] Run type-check, lint, focused tests, E2E tests, and production build.
-- [ ] Rehearse against the production preview, not only the dev server.
+- [x] Run type-check, lint, focused tests, E2E tests, and production build.
+- [ ] Manually rehearse against the production preview, not only the dev server.
 
 ### 6. Interview readiness
 

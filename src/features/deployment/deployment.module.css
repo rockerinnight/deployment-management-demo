@@ -1,0 +1,71 @@
+.stack,
+.form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+.heading,
+.filters {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.heading {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heading h1 {
+  margin: 0 0 6px;
+}
+.heading p {
+  margin: 0;
+}
+.muted,
+.crumb {
+  color: var(--muted);
+}
+.crumb {
+  font-size: 13px;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(185px, 100%), 1fr));
+  gap: 16px;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.fields label,
+.filters label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.filters label {
+  min-width: 190px;
+}
+.fields span[role='alert'] {
+  color: var(--danger);
+  font-weight: 400;
+}
+.badge {
+  border-radius: 999px;
+}
+.badge::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: 1px;
+}

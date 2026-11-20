@@ -5,7 +5,7 @@ description: Build or review UI for this demo using the six archived screenshots
 
 # Build demo UI
 
-1. Read the relevant screen and flow in the [demo plan](../../../docs/DEMO-PLAN.vi.md). Use only the six local screenshots below as visual design references. Do not open Figma or use the VS Code Integrated Browser to inspect the design. Preserve demo behavior and use the plan for states not shown in the screenshots.
+1. Read the relevant screen and flow in the [demo plan](../../../docs/plans/DEMO-PLAN.vi.md). Use only the six local screenshots below as visual design references. Do not open Figma or use the VS Code Integrated Browser to inspect the design. Preserve demo behavior and use the plan for states not shown in the screenshots.
 2. Search the existing feature and shared UI before adding a component. On the second use of the same UI pattern, extract a base and migrate both usages. Prefer a small typed API for the variations actually used: content, labels, actions, or presentation. Use Ant Design directly if it already supplies the common behavior.
 3. Keep UI that depends on one feature's models or actions in that feature; put reusable presentation without those dependencies in `src/shared/ui`. Keep fetching, mutations, permissions, and SSE out of generic bases.
 4. Apply shared theme tokens and CSS Modules. Treat the screenshots as visual references, not copy: write all UI text in English, including accessible names, status labels, validation, and error messages. Never reproduce Korean text from a screenshot. Check keyboard operation and ensure status text works without color. Cover the loading, empty, permission, error, and pending-action states relevant to the screen.

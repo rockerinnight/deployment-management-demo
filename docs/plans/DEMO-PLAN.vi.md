@@ -219,71 +219,81 @@ Tạo yêu cầu staging với kịch bản thành công; Operator Approve rồi
 ### 1. Khởi tạo và quy trình phát triển
 
 - [x] Tạo tài liệu kế hoạch và khởi tạo Git repository local.
-- [ ] Khởi tạo React + TypeScript bằng Vite.
-- [ ] Cấu hình TypeScript strict, path alias, ESLint và Prettier.
-- [ ] Thêm script dev, build, preview, type-check, lint, test và test:e2e.
-- [ ] Cấu hình Vitest/Testing Library và Playwright.
-- [ ] Thêm README mô tả cách cài đặt, kiến trúc và giới hạn demo.
+- [x] Khởi tạo React + TypeScript bằng Vite.
+- [x] Cấu hình TypeScript strict, path alias, ESLint và Prettier.
+- [x] Thêm script dev, build, preview, type-check, lint, test và test:e2e.
+- [x] Cấu hình Vitest và Playwright.
+- [ ] Cấu hình React Testing Library cho kiểm thử component.
+- [x] Thêm README mô tả cách cài đặt, kiến trúc và giới hạn demo.
 
 ### 2. Domain model và mock API
 
-- [ ] Định nghĩa kiểu cho ứng dụng, môi trường, phiên bản, lần triển khai và log.
-- [ ] Tạo dữ liệu mẫu giả lập, gồm phiên bản hoạt động tốt và lịch sử gần đây.
-- [ ] Định nghĩa endpoint snapshot cho dashboard và danh sách/chi tiết, endpoint
-  SSE, cùng endpoint tạo yêu cầu, Approve, Rollback, Complete và reset.
-- [ ] Triển khai tiến trình thành công/thất bại xác định và điều kiện rollback.
-- [ ] Triển khai phân trang, bộ lọc và thứ tự sắp xếp ổn định.
+- [x] Định nghĩa kiểu cho ứng dụng, môi trường, phiên bản, lần triển khai và log.
+- [x] Tạo dữ liệu mẫu giả lập, gồm phiên bản hoạt động tốt và lịch sử gần đây.
+- [x] Thêm endpoint snapshot cho dashboard và danh sách/chi tiết, endpoint SSE,
+  cùng endpoint tạo yêu cầu, Approve, Rollback và reset.
+- [ ] Thêm endpoint Complete.
+- [x] Mô phỏng tiến trình thất bại và khôi phục thành công với điều kiện rollback.
+- [ ] Thêm kịch bản triển khai thành công độc lập.
+- [x] Triển khai phân trang, bộ lọc và thứ tự sắp xếp ổn định.
 - [ ] Thêm độ trễ demo có thể cấu hình và kịch bản lỗi API một lần có nhãn rõ ràng.
-- [ ] Trả lỗi validation, phân quyền, xung đột và không tìm thấy một cách tường minh.
-- [ ] Xác định hành vi reload: khôi phục dữ liệu mẫu giả lập và ghi rõ trong tài liệu.
+- [x] Trả lỗi validation, phân quyền, xung đột và không tìm thấy một cách tường minh.
+- [x] Xác định hành vi reload: khôi phục dữ liệu mẫu giả lập và ghi rõ trong tài liệu.
 
 ### 3. Khung ứng dụng và phân quyền
 
-- [ ] Thêm khung ứng dụng, route dashboard/danh sách/chi tiết và trang không tìm thấy.
-- [ ] Thêm bộ chuyển danh tính demo và nhãn không phải production.
-- [ ] Tập trung logic kiểm tra quyền và áp dụng guard cho route/thao tác.
-- [ ] Xóa query state phụ thuộc danh tính khi chuyển vai trò.
-- [ ] Giữ ngữ cảnh điều hướng an toàn khi thay đổi vai trò.
-- [ ] Thêm nhãn hỗ trợ tiếp cận, điều hướng bàn phím và chữ trạng thái dễ đọc.
+- [x] Thêm khung ứng dụng, route dashboard/danh sách/chi tiết và trang không tìm thấy.
+- [x] Thêm bộ chuyển danh tính demo và nhãn không phải production.
+- [x] Tập trung logic kiểm tra quyền và áp dụng guard cho route/thao tác.
+- [ ] Xóa query state phụ thuộc danh tính khi chuyển vai trò nếu có; snapshot hiện dùng chung giữa các vai trò.
+- [x] Giữ ngữ cảnh điều hướng an toàn khi thay đổi vai trò.
+- [x] Thêm nhãn hỗ trợ tiếp cận, điều hướng bàn phím và chữ trạng thái dễ đọc.
 
 ### 4. Quy trình triển khai
 
-- [ ] Xây dựng tổng quan dashboard và hoạt động gần đây.
-- [ ] Xây dựng bảng triển khai với bộ lọc và phân trang lưu trên URL.
-- [ ] Xây dựng biểu mẫu có validation với trường ứng dụng/môi trường/phiên bản phụ thuộc nhau.
-- [ ] Ngăn gửi trùng và hiển thị lỗi mutation.
-- [ ] Xây dựng timeline, log, phần trăm và theo dõi EventSource từ snapshot hoặc thao tác
-  trên cả ba màn hình; thêm Approve và xác nhận Complete.
-- [ ] Thêm xác nhận rollback, theo dõi ID mới và cập nhật đầu bảng theo bộ lọc.
-- [ ] Với mutation không được cập nhật qua SSE, invalidate query liên quan.
-  Với thao tác có SSE, cập nhật dữ liệu đang hiển thị mà không lấy lại snapshot.
-- [ ] Thêm UI tải, dữ liệu rỗng, không đủ quyền, yêu cầu thất bại và thử lại.
-- [ ] Thêm điều khiển reset đưa ứng dụng về trạng thái trình bày đã biết.
+- [x] Xây dựng tổng quan dashboard và hoạt động gần đây.
+- [x] Xây dựng bảng triển khai với bộ lọc và phân trang lưu trên URL.
+- [x] Xây dựng biểu mẫu tạo yêu cầu có validation.
+- [ ] Xử lý các trường ứng dụng/môi trường/phiên bản phụ thuộc nhau.
+- [x] Ngăn gửi trùng và hiển thị lỗi mutation.
+- [x] Hiển thị timeline và log ở trang chi tiết, phần trăm tiến độ trên cả ba màn hình.
+- [x] Theo dõi EventSource từ snapshot trên cả ba màn hình và từ thao tác Approve/Rollback.
+- [x] Thêm thao tác Approve.
+- [ ] Thêm xác nhận Complete.
+- [x] Thêm xác nhận rollback, theo dõi ID mới và cập nhật đầu bảng theo bộ lọc.
+- [ ] Invalidate query liên quan cho mutation không được cập nhật qua SSE.
+- [x] Với thao tác có SSE, cập nhật dữ liệu đang hiển thị mà không lấy lại snapshot.
+- [x] Thêm UI tải, dữ liệu rỗng, không đủ quyền, yêu cầu thất bại và thử lại.
+- [x] Thêm điều khiển reset đưa ứng dụng về trạng thái trình bày đã biết.
 
 ### 5. Kiểm chứng tập trung
 
-- [ ] Kiểm thử từ chối triển khai production và rollback, kể cả request đến mock API.
+- [x] Kiểm thử Developer bị từ chối khi yêu cầu triển khai Production qua mock API.
+- [x] Kiểm thử bộ mô phỏng từ chối Rollback của Developer.
+- [ ] Kiểm thử Developer bị từ chối khi gọi endpoint Rollback của mock API.
 - [ ] Kiểm thử giá trị trường phụ thuộc được xóa khi lựa chọn ở trường nguồn thay đổi.
-- [ ] Kiểm thử validation yêu cầu và từ chối thao tác trùng/xung đột.
-- [ ] Kiểm thử Rollback tạo job mới, chèn đúng một hàng khi nhận lại sự kiện và
-  giữ kết quả thất bại của job gốc; Complete chặn thao tác thay đổi nhưng vẫn cho xem log.
-- [ ] Kiểm thử với `pageSize = 10`: 10 hàng + 1 job rollback thì bỏ đúng 1
+- [x] Kiểm thử validation trên biểu mẫu và bộ mô phỏng từ chối thao tác trùng/xung đột.
+- [x] Kiểm thử Rollback tạo job mới, chèn đúng một hàng khi nhận lại sự kiện và
+  giữ kết quả thất bại của job gốc.
+- [ ] Kiểm thử Complete chặn thao tác thay đổi nhưng vẫn cho xem log.
+- [x] Kiểm thử với `pageSize = 10`: 10 hàng + 1 job rollback thì bỏ đúng 1
   hàng cuối; 9 hàng + 1 job thì không bỏ hàng nào. SSE không gọi lại snapshot.
-- [ ] Kiểm thử snapshot có job `in-progress` bắt đầu theo dõi đúng ID mà không
-  cần thao tác, không đăng ký trùng và thao tác vẫn có thể bắt đầu theo dõi.
-  Kiểm thử stream vẫn mở khi job kết thúc và đóng khi rời trang; UI hiển thị
-  được khi không có SSE và ghép đúng bất kể thứ tự dữ liệu đến.
-- [ ] Kiểm thử reset khi còn kết nối SSE hoặc request đang chờ không để dữ liệu cũ xuất hiện lại.
-- [ ] E2E: Developer tạo yêu cầu -> Operator Approve -> thất bại -> Rollback ->
+- [x] Kiểm thử tự theo dõi đúng ID từ snapshot có job `in-progress` và theo dõi khi thao tác Approve/Rollback.
+- [ ] Kiểm thử không đăng ký trùng và stream vẫn mở khi job kết thúc.
+- [ ] Kiểm thử stream đóng khi rời trang.
+- [ ] Kiểm thử UI hiển thị snapshot khi chưa có SSE và ghép đúng với cả hai thứ tự dữ liệu đến.
+- [x] Kiểm thử reset khi còn kết nối SSE: stream đóng và dữ liệu cũ không xuất hiện lại.
+- [ ] Kiểm thử reset khi request đang chờ: phản hồi cũ không ghi lại vào cache.
+- [x] E2E: Developer tạo yêu cầu -> Operator Approve -> thất bại -> Rollback ->
   job mới xuất hiện và dashboard/lịch sử cập nhật.
 - [ ] E2E: triển khai thành công và các thao tác Developer bị cấm.
 - [ ] E2E: lỗi API được hiển thị, thử lại thành công mà không tạo bản ghi trùng.
-- [ ] Kiểm chứng SSE sớm trên Vite production preview local ngay khi luồng
+- [x] Kiểm chứng SSE sớm trên Vite production preview local ngay khi luồng
   Approve → thất bại → Rollback chạy được. Kiểm tra tiến trình cập nhật khi
   job đang chạy, job rollback xuất hiện đầu bảng đúng `pageSize`, và sự kiện
   SSE không kích hoạt request snapshot.
-- [ ] Chạy type-check, lint, kiểm thử tập trung, E2E và production build.
-- [ ] Diễn tập trên production preview, không chỉ trên dev server.
+- [x] Chạy type-check, lint, kiểm thử tập trung, E2E và production build.
+- [ ] Diễn tập thủ công trên production preview, không chỉ trên dev server.
 
 ### 6. Sẵn sàng phỏng vấn
 

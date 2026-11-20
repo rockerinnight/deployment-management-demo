@@ -1,6 +1,6 @@
 # Deployment Management Demo
 
-- Use the [demo plan (VI)](../docs/DEMO-PLAN.vi.md) or [demo plan (EN)](../docs/DEMO-PLAN.en.md) for MVP scope, behavior, and acceptance criteria. Prioritize a repeatable, 5–10 minute localhost walkthrough over extra features.
+- Use the [demo plan (VI)](../docs/plans/DEMO-PLAN.vi.md) or [demo plan (EN)](../docs/plans/DEMO-PLAN.en.md) for MVP scope, behavior, and acceptance criteria. Prioritize a repeatable, 5–10 minute localhost walkthrough over extra features.
 - Keep the demo standalone: synthetic data and logs only, with mock HTTP and SSE. Do not copy archived company material, credentials, endpoints, or business rules. Do not add real auth, deployment, Jenkins, infrastructure, or hosted services.
 - **Use English only in the demo app.** All user-facing text, including labels, tooltips, validation and error messages, sample data, and simulated logs, must be in English. Use an English Ant Design locale and never copy Korean text from the UI reference screenshots.
 - Use React, strict TypeScript, Vite, Ant Design, CSS Modules, and React Router. Organize by feature: app shell/providers in `src/app`, dashboard and deployment in `src/features`, reusable UI and policy in `src/shared`, and MSW simulation in `src/mocks`. Keep API clients separate from mock handlers.
